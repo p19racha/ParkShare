@@ -1,0 +1,7 @@
+project_id = "parkshare"
+
+[functions.market]
+verify_jwt = false
+
+[auth.email]
+enable_confirmations = false
