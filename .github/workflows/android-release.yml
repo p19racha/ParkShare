@@ -18,11 +18,11 @@ jobs:
       group: android-release-${{ github.ref }}
       cancel-in-progress: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           persist-credentials: false
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
@@ -40,6 +40,8 @@ jobs:
 
       - name: Build Android APK
         env:
+          # Skip Android R8 shrinking so the pilot build fits the runner budget.
+          ORG_GRADLE_PROJECT_shrink: 'false'
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -57,7 +59,7 @@ jobs:
           trap 'rm -f "$HOME/.android/debug.keystore"' EXIT
           printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$HOME/.android/debug.keystore"
           unset ANDROID_KEYSTORE_BASE64
-          flutter build apk --release --no-pub \
+          flutter build apk --release --no-pub --target-platform android-arm64 \
             --build-name="$version" --build-number="$GITHUB_RUN_NUMBER" \
             --dart-define="SUPABASE_URL=$SUPABASE_URL" \
             --dart-define="SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY"

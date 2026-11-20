@@ -23,7 +23,7 @@ flutter build apk --release --dart-define-from-file=parkshare.defines.json
 
 ### GitHub Releases
 
-Push a version tag such as `v0.1.0` to run Flutter analysis and tests, build the Android APK, and attach `ParkShare-v0.1.0.apk` to [GitHub Releases](https://github.com/p19racha/ParkShare/releases). Downloads require access to the private repository.
+Push a version tag such as `v0.1.2` to run Flutter analysis and tests, build the ARM64 Android APK, and attach `ParkShare-v0.1.2.apk` to [GitHub Releases](https://github.com/p19racha/ParkShare/releases). The APK supports ARM64 phones such as the Pixel 7 Pro. Downloads require access to the private repository.
 
 The workflow reads `SUPABASE_URL` and `SUPABASE_ANON_KEY` from GitHub Actions repository variables. Use the Supabase publishable key or legacy anon key. It reads the base64-encoded pilot signing keystore from the `ANDROID_KEYSTORE_BASE64` repository secret. Keep using the same keystore for updates. It uses the Android debug-signing alias `androiddebugkey` and password `android` expected by the current Gradle configuration.
 
